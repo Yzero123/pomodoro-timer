@@ -192,6 +192,14 @@ python pomodoro.py reset   # 重置今天的统计
 
 ---
 
+## 📞 联系方式
+
+如果你有任何问题或建议，欢迎联系我：
+
+- **QQ**: 248119587
+
+---
+
 ## 📄 License
 
 MIT License - 详见 [LICENSE](LICENSE) 文件
