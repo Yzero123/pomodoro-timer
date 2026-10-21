@@ -48,14 +48,25 @@ def _windows_notification(title, message):
 def _mac_notification(title, message):
     """macOS 通知"""
     import subprocess
-    script = f'display notification "{message}" with title "{title}"'
-    subprocess.run(["osascript", "-e", script])
+    # 用 argv 传参，避免标题或正文里的引号 / 反斜杠破坏 AppleScript 语法
+    script = (
+        'on run argv\n'
+        'display notification (item 2 of argv) with title (item 1 of argv)\n'
+        'end run'
+    )
+    try:
+        subprocess.run(["osascript", "-e", script, title, message], check=False)
+    except (OSError, subprocess.SubprocessError):
+        print(f"\n📢 {title}: {message}")
 
 
 def _linux_notification(title, message):
     """Linux 通知"""
     import subprocess
-    subprocess.run(["notify-send", title, message])
+    try:
+        subprocess.run(["notify-send", title, message], check=False)
+    except (OSError, subprocess.SubprocessError):
+        print(f"\n📢 {title}: {message}")
 
 
 class NotificationManager:
@@ -87,6 +98,9 @@ class NotificationManager:
 
     @staticmethod
     def countdown(minutes, seconds):
-        """倒计时提醒（最后1分钟）"""
-        if minutes == 0 and seconds == 30:
+        """倒计时提醒（最后 30 秒与最后 10 秒）"""
+        remaining = minutes * 60 + seconds
+        if remaining == 30:
             send_notification("⏰", "还剩30秒！")
+        elif remaining == 10:
+            send_notification("⏰", "还剩10秒！")

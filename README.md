@@ -1,209 +1,243 @@
-# 🍅 Pomodoro Timer CLI
+# 🍅 Pomodoro Timer CLI · 二次元增强版命令行番茄钟
 
-[![Python](https://img.shields.io/badge/Python-3.7+-blue.svg)](https://www.python.org/)
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![CI](https://github.com/Yzero123/pomodoro-timer/actions/workflows/ci.yml/badge.svg)](https://github.com/Yzero123/pomodoro-timer/actions/workflows/ci.yml)
+[![Python](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](#-跨平台)
+[![Code style](https://img.shields.io/badge/code-4-space%20indent-blue.svg)](https://peps.python.org/pep-0008/)
 
-一个简单实用的命令行番茄钟工具，专注于时间管理和效率提升。
+> 一个开箱即用的命令行番茄钟：标准番茄工作法 + 二次元风格界面 + 随机励志语录 + 桌面通知 + 统计持久化。
+> 零配置启动，不依赖任何 GUI 框架，Windows / macOS / Linux 通用。
 
-> ✨ **二次元增强版** - 可爱的界面设计，让专注变得更有趣！
-
----
-
-## 📝 更新日志
-
-### v1.1.0 (2026-03-25) - 二次元增强版
-- 🎨 全新二次元风格UI界面
-- ✨ 添加ASCII艺术边框和装饰
-- 💖 加入随机励志语录（工作/休息时显示不同消息）
-- 🌟 优化进度条显示效果
-- 📊 美化统计面板展示
-- 🎊 添加完成庆祝动画效果
-
-### v1.0.0 (2026-03-25) - 初始版本
-- 🍅 标准番茄钟功能
-- ⏰ 自定义工作/休息时长
-- 📢 桌面通知提醒
-- 📊 统计功能
-- 💾 数据持久化
+[English](README.en.md) · [快速开始](#-快速开始) · [命令参考](#-命令参考) · [项目结构](#-项目结构) · [路线图](#-路线图) · [贡献指南](CONTRIBUTING.md)
 
 ---
 
-## ✨ 功能特性
+## ✨ 特性
 
-- 🍅 25分钟专注 + 5分钟休息的标准番茄工作法
-- 🎨 **二次元增强UI** - 可爱的界面设计
-- 💖 **随机励志语录** - 工作休息都有好心情
-- ⏰ 自定义工作/休息时长
-- 📢 桌面通知提醒
-- 📊 每日/每周统计数据
-- 💾 数据持久化存储
-- 🌟 简洁美观的命令行界面
+| 能力 | 说明 |
+| --- | --- |
+| 🍅 标准番茄工作法 | 25 分钟专注 + 5 分钟休息，每 4 轮进入 15 分钟长休息，全部可自定义 |
+| 🎨 二次元风格 UI | Unicode 边框、专注 / 休息 / 长休息三套状态标题、实时进度条 |
+| 💖 随机励志语录 | 工作与休息分别使用不同语料库，每次随机抽取 |
+| ⏰ 桌面通知 | 优先使用 `plyer`；不可用时按系统降级（osascript / notify-send / 终端输出） |
+| 📊 统计面板 | 今日 / 本周 / 累计三个维度，基于 `rich` 渲染 |
+| 💾 数据持久化 | 统计写入 `~/.pomodoro_data.json`，损坏时自动回退到默认结构 |
+| ⌨️ 全键盘友好 | 单命令启动，`Ctrl+C` 随时暂停并打印本次会话小结 |
+| 🧪 测试覆盖 | 16 项单元测试，GitHub Actions 多 Python 版本矩阵验证 |
 
 ---
 
 ## 📸 界面预览
 
+以下为**实际运行输出**，非手绘示意图。
+
+**专注模式**
+
 ```
-  ╭━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╮
-  ┃         🍅 ポ モ ド ー ロ 🍅              ┃
-  ┃              二次元增强版                  ┃
-  ╰━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╯
+  ╔══════════════════════════════════╗
+  ║   🍅 ポ モ ド ー ロ  🍅           ║
+  ║   ═══════════════════════════    ║
+  ║     专注模式 · FOCUS MODE         ║
+  ╚══════════════════════════════════╝
 
-  ✨ 欢迎使用番茄钟！让我们开始专注吧~ ✨
-  ─────────────────────────────────────────────
-  📋 工作时长: 25分钟
-  📋 休息时长: 5分钟
-  📋 长休息: 15分钟 (每4个后)
-  ─────────────────────────────────────────────
-  💡 按 Ctrl+C 可以暂停并退出
-  ─────────────────────────────────────────────
+  💖 专注的你闪闪发光呢~ ✨
 
-  ╔══════════════════════════════════════════╗
-  ║   🍅 ポ モ ド ー ロ  🍅                   ║
-  ║   ═══════════════════════════════════    ║
-  ║     专注模式 · FOCUS MODE                  ║
-  ╚══════════════════════════════════════════╝
-  💖 加油！你是最棒的！ヾ(◍°∇°◍)ﾉﾞ
+  🍅 │████████████████░░░░░░░░░░░░│ 专注中 │ 25:00
+```
 
-  🍅 │████████████████░░░░░░░░│ 专注中 │ 24:30
+**统计面板**
+
+```
+  ╭━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╮
+  │            📈 统计面板             │
+  ╰━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╯
+
+╭───── 💎 总体成就 ──────╮
+│  🌟 总完成番茄钟: 0    │
+│  ⏰ 总专注时间: 0 分钟 │
+│  ⌛ 折合约: 0 小时     │
+╰────────────────────────╯
+╭─────── 📅 今日战报 ────────╮
+│  🍅 完成: 0 个             │
+│  ⏱️ 时长: 0 分钟           │
+│  💯 加油！今天也很努力呢！ │
+╰────────────────────────────╯
 ```
 
 ---
 
-## 🚀 安装
+## 🚀 快速开始
 
-### 方式一：直接运行
+### 方式一：直接运行（免安装）
 
 ```bash
-# 克隆项目
 git clone https://github.com/Yzero123/pomodoro-timer.git
 cd pomodoro-timer
 
-# 安装依赖
 pip install -r requirements.txt
 
-# 运行
-python pomodoro.py
+python pomodoro.py            # 直接启动番茄钟
 ```
 
-### 方式二：全局安装
+### 方式二：安装为命令行工具（推荐）
+
+```bash
+git clone https://github.com/Yzero123/pomodoro-timer.git
+cd pomodoro-timer
+
+pip install .
+
+pomodoro start
+```
+
+安装后 `pomodoro` 命令在任意目录可用。
+
+### 方式三：开发模式
 
 ```bash
 pip install -e .
-pomodoro
+pip install -r requirements-dev.txt
+python -m unittest discover -s tests -v
 ```
 
 ---
 
-## 📖 使用方法
+## 📖 命令参考
 
-### 启动番茄钟
+| 命令 | 说明 |
+| --- | --- |
+| `pomodoro start` | 启动番茄钟循环（默认命令） |
+| `pomodoro stats` | 查看统计面板 |
+| `pomodoro stats --week` | 追加显示本周汇总 |
+| `pomodoro reset` | 重置**今天**的统计（保留历史与累计值） |
+| `pomodoro help` | 显示帮助信息 |
+
+### 可选参数
+
+| 参数 | 简写 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| `--work` | `-w` | 25 | 专注时长（分钟） |
+| `--break` | `-b` | 5 | 短暂休息时长（分钟） |
+| `--long-break` | `-l` | 15 | 长休息时长（分钟） |
+| `--intervals` | `-i` | 4 | 多少个番茄钟后进入长休息 |
+| `--week` | `-W` | 关 | 在统计面板中追加本周汇总 |
+
+**示例**
 
 ```bash
-python pomodoro.py start
+# 30 分钟专注 + 10 分钟休息
+pomodoro start --work 30 --break 10
+
+# 每 3 轮进入一次 20 分钟长休息
+pomodoro start --intervals 3 --long-break 20
 ```
-
-### 查看统计
-
-```bash
-python pomodoro.py stats
-python pomodoro.py stats --week    # 查看本周统计
-```
-
-### 自定义时长
-
-```bash
-python pomodoro.py start --work 30 --break 10
-```
-
-### 其他命令
-
-```bash
-python pomodoro.py help    # 显示帮助
-python pomodoro.py reset   # 重置今天的统计
-```
-
----
-
-## ⚙️ 命令行参数
-
-| 参数 | 描述 | 默认值 |
-|------|------|--------|
-| `--work` | 工作时长（分钟） | 25 |
-| `--break` | 休息时长（分钟） | 5 |
-| `--long-break` | 长休息时长（分钟） | 15 |
-| `--intervals` | 长休息间隔 | 4 |
-| `--week` | 显示本周统计 | False |
 
 ---
 
 ## 🔄 工作流程
 
-1. 开始专注工作（默认25分钟）🍅
-2. 专注时间结束，收到桌面通知 + 励志语录
-3. 短暂休息（默认5分钟）☕
-4. 每4个番茄钟后，长休息（15分钟）🌟
-5. 重复循环，开启新的一轮专注！
+1. 进入专注周期，默认 25 分钟 🍅
+2. 专注结束 → 桌面通知 + 励志语录 + 庆祝动画
+3. 进入短暂休息，默认 5 分钟 ☕
+4. 每满 `--intervals` 轮改走长休息，默认 15 分钟 🌟
+5. 循环继续；`Ctrl+C` 随时退出并打印本次会话小结
 
 ---
 
 ## 💾 数据存储
 
-统计数据保存在 `~/.pomodoro_data.json` 文件中，包括：
-- 完成的任务数
-- 累计专注时间
-- 每日/每周统计
+统计数据保存在 `~/.pomodoro_data.json`：
+
+```json
+{
+  "total_completed": 12,
+  "total_minutes": 300,
+  "daily_stats": {
+    "2026-10-21": { "completed": 4, "minutes": 100 }
+  },
+  "last_updated": "2026-10-21"
+}
+```
+
+- 文件损坏或解析失败时，程序会自动回退到默认结构而不是崩溃。
+- `pomodoro reset` 只删除当天条目，累计值保留。
+- 该文件已在 `.gitignore` 中，不会被误提交。
 
 ---
 
-## 🎨 界面特色
+## 📂 项目结构
 
-### 励志语录系统
-- **工作时**: 随机显示加油鼓励语
-  - "加油！你是最棒的！ヾ(◍°∇°◍)ﾉﾞ"
-  - "专注的你闪闪发光呢~ ✨"
-  - "再坚持一下就胜利啦！💪"
-  - ...
-
-- **休息时**: 轻松提示语
-  - "休息一下吧~ 伸个懒腰！🧘"
-  - "喝杯水补充能量吧！💧"
-  - "看看窗外放松眼睛吧！👀"
-  - ...
-
-### ASCII艺术边框
-- 精美的Unicode边框装饰
-- 状态切换动画效果
-- 完成庆祝界面
+```
+pomodoro-timer/
+├── pomodoro.py                  # 兼容入口，支持 `python pomodoro.py start`
+├── pomodoro_timer/              # 主包
+│   ├── __init__.py              # 包入口，暴露 __version__ 与 main()
+│   ├── cli.py                   # 命令行解析与主循环
+│   ├── config.py                # 默认时长、状态常量、数据文件路径
+│   ├── notification.py          # 桌面通知与系统降级
+│   └── storage.py               # 统计数据的读写与聚合
+├── tests/
+│   └── test_pomodoro.py         # 16 项单元测试
+├── .github/workflows/ci.yml     # CI：Python 3.8 / 3.11 / 3.12 矩阵
+├── requirements.txt             # 运行依赖
+├── requirements-dev.txt         # 开发依赖
+├── setup.py                     # 打包配置
+├── CONTRIBUTING.md
+├── SECURITY.md
+├── LICENSE                      # MIT
+├── README.md
+└── README.en.md
+```
 
 ---
 
-## 📦 依赖
+## 🧪 开发与测试
 
-- Python 3.7+
-- plyer (桌面通知)
-- rich (美化输出，可选)
+```bash
+# 安装开发依赖
+pip install -r requirements-dev.txt
+
+# 运行全部测试
+python -m unittest discover -s tests -v
+
+# 单个测试文件
+python -m unittest tests.test_pomodoro -v
+```
+
+CI 在 Python 3.8 / 3.11 / 3.12 上运行同一套测试，并额外执行一次命令行冒烟测试（`pomodoro help`、`pomodoro stats`）。
+
+---
+
+## 🗺️ 路线图
+
+- [x] v1.0.0 基础番茄钟、统计持久化、桌面通知
+- [x] v1.1.0 二次元 UI、随机励志语录、ASCII 边框、庆祝动画
+- [x] v1.1.1 修正 `run_long_break` 缩进错误（此前整个模块无法导入）
+- [x] v1.1.1 重构为标准 `pomodoro_timer` 包，`pip install .` 可用
+- [x] v1.1.1 补齐 16 项单元测试与 CI 工作流
+- [ ] v1.2.0 配置文件支持（`.pomodororc`），免去每次传参
+- [ ] v1.2.0 任务标签与每日目标
+- [ ] v1.3.0 会话历史导出（CSV / Markdown）
 
 ---
 
 ## 🤝 贡献
 
-欢迎提交 Issue 和 Pull Request！
+欢迎提交 Issue 和 Pull Request。提交前请先阅读 [CONTRIBUTING.md](CONTRIBUTING.md)。
 
----
-
-## 📞 联系方式
-
-如果你有任何问题或建议，欢迎联系我：
-
-- **QQ**: 248119587
+代码贡献请附带与改动相关的验证结果（`python -m unittest discover -s tests`）。
 
 ---
 
 ## 📄 License
 
-MIT License - 详见 [LICENSE](LICENSE) 文件
+MIT License — 详见 [LICENSE](LICENSE) 文件。
 
 ---
+
+## 📞 联系
+
+问题反馈与建议欢迎通过 GitHub Issues 提交。
 
 > 💖 *专注是一种力量，让每一次番茄钟都充满意义！*

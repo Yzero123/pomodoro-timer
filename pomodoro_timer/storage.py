@@ -4,8 +4,8 @@ Pomodoro Timer - 数据存储模块
 
 import json
 import os
-from datetime import datetime, date
-from config import DATA_FILE
+from datetime import date, timedelta
+from .config import DATA_FILE
 
 
 class Storage:
@@ -95,6 +95,3 @@ class Storage:
             "total_completed": self.data["total_completed"],
             "total_minutes": self.data["total_minutes"]
         }
-
-
-from datetime import timedelta

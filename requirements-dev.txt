@@ -1,0 +1,7 @@
+# 开发依赖
+# 运行时依赖见 requirements.txt
+-r requirements.txt
+
+# 测试与代码质量
+pytest>=7.0
+ruff>=0.5.0
